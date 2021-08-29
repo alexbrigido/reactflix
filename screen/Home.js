@@ -1,11 +1,7 @@
 import React from 'react';
-
 import {StatusBar, Dimensions} from 'react-native';
-
 import {LinearGradient} from 'expo-linear-gradient';
-
 import styled from 'styled-components/native';
-
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import Movies from '../components/Movies';

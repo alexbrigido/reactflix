@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Dimensions, TouchableWithoutFeedback} from 'react-native';
-import {useSpring, animated} from 'react-spring';
-
+import {useSpring, animated} from '@react-spring/native';
 import styled from 'styled-components/native';
 
 const Container = styled.View`
