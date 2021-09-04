@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import Avatar from '../components/Avatar';
 import {View} from 'react-native';
 import {MaterialIcons} from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Screen = styled.View`
   flex: 1;
@@ -67,7 +68,7 @@ let profilesAvailables = [
 
 const replaceAvatarsWithImage = (props, profilesAvailables) => {
   if (props.route?.params?.name) {
-    profilesAvailables.map((item) => {
+    profilesAvailables.map(item => {
       if (item.name === props.route.params.name) {
         if (props.route?.params?.image) {
           item.uri = props.route.params.image;
@@ -84,28 +85,33 @@ const replaceAvatarsWithImage = (props, profilesAvailables) => {
 };
 
 const selectProfile = (navigation, item) => {
-  navigation.navigate('Home', {name: item.name});
+  const itemJson = JSON.stringify(item);
+  AsyncStorage.setItem('UsuarioSelecionado', itemJson)
+    .then(result => {
+      navigation.navigate('Home', {name: item.name});
+    })
+    .catch(console.error);
 };
 
 const editProfile = (navigation, profiles) => {
   navigation.navigate('ProfileToEdit', {profiles: profiles});
 };
 
-const More = (props) => {
+const More = props => {
   replaceAvatarsWithImage(props, profilesAvailables);
 
   return (
     <Screen>
       <AvantarsContainer>
         <Row horizontal>
-          {profilesAvailables.map((item) => {
+          {profilesAvailables.map(item => {
             return (
               <Avatar
                 key={item.name}
                 image={item.icon}
                 uri={item.uri}
                 name={item.name}
-                onPress={(item) => selectProfile(props.navigation, item)}
+                onPress={item => selectProfile(props.navigation, item)}
               />
             );
           })}
